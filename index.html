@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Meet Divya — Your Playful AI Voice Narrator powered by ElevenLabs & D-ID. Generate ultra-expressive speech in 29+ languages with retro Y2K cyber-kawaii vibes.">
+  <title>DIVYA.EXE ✦ ElevenLabs & D-ID Speech Studio</title>
+  
+  <!-- Google Fonts: Silkscreen (Pixel), Space Grotesk, Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Silkscreen:wght@400;700&family=Space+Grotesk:wght@500;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  
+  <!-- Phosphor Icons -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="y2k-theme">
+
+  <!-- Playful Decorative Floating Stickers & Clouds -->
+  <div class="cloud-bg cloud-1"></div>
+  <div class="cloud-bg cloud-2"></div>
+  <div class="sticker-float sticker-star-1">✦</div>
+  <div class="sticker-float sticker-star-2">★</div>
+  <div class="sticker-float sticker-star-3">✧</div>
+  <div class="sticker-float sticker-doodle-cat">(=^･ω･^=)</div>
+  <div class="sticker-float sticker-flower-1">🌸</div>
+
+  <!-- Header Bar -->
+  <header class="app-header y2k-window">
+    <div class="header-left">
+      <div class="retro-window-dots">
+        <span class="dot dot-pink"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+      </div>
+      <div class="brand-title-wrap">
+        <h1 class="brand-title">
+          <span class="pixel-text">DIVYA.EXE</span>
+          <span class="sticker-tag live-tag">★ READY TO TALK</span>
+        </h1>
+        <p class="brand-subtitle">ElevenLabs AI Narration Studio ✦ Starring Divya</p>
+      </div>
+    </div>
+    
+    <div class="header-actions">
+      <!-- D-ID Agent Status Badge -->
+      <div class="agent-pill" title="D-ID AI Live Agent is active in the bottom right">
+        <span class="agent-status-dot"></span>
+        <span class="agent-pill-text">D-ID AGENT ACTIVE</span>
+      </div>
+
+      <!-- API Key Status Badge (Embedded) -->
+      <button id="apiKeyBtn" class="y2k-btn btn-key" style="background: var(--alien-green);" title="API Key Pre-configured & Embedded">
+        <i class="ph-bold ph-key"></i>
+        <span id="apiKeyStatusText">API KEY: EMBEDDED ★</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="studio-wrapper">
+
+    <!-- ========================================================
+         HERO SECTION: DIVYA THE ALIEN NARRATOR
+         ======================================================== -->
+    <section class="divya-hero-section">
+      <div class="divya-monitor-window y2k-card">
+        
+        <!-- Retro Window Bar -->
+        <div class="window-titlebar">
+          <div class="window-titlebar-left">
+            <i class="ph-bold ph-alien"></i>
+            <span class="pixel-label">divya_speaks.sys [29+ LANGS]</span>
+          </div>
+          <div class="window-controls">
+            <span class="win-btn win-min">_</span>
+            <span class="win-btn win-max">□</span>
+            <span class="win-btn win-close">✕</span>
+          </div>
+        </div>
+
+        <div class="divya-stage">
+          <!-- Speech Bubble above Divya -->
+          <div class="divya-speech-bubble" id="divyaSpeechBubble">
+            <span class="speech-star">✦</span>
+            <p id="divyaDialog">"Hi! I'm Divya 👽 Paste your text, choose an ElevenLabs model, and I'll voice it for you!"</p>
+          </div>
+
+          <!-- Divya Character Centerpiece -->
+          <div class="divya-avatar-container" id="divyaAvatarWrap" title="Click Divya for a reaction!">
+            <!-- Glowing audio reactive aura -->
+            <div class="audio-aura" id="audioAura"></div>
+            
+            <!-- Soundwave ring ripples -->
+            <div class="sound-wave-ring ring-1" id="soundRing1"></div>
+            <div class="sound-wave-ring ring-2" id="soundRing2"></div>
+
+            <!-- Divya Image with sticker border -->
+            <img 
+              src="assets/divya_avatar.jpg" 
+              alt="Divya — Cute Alien Girl Voice Narrator" 
+              class="divya-img" 
+              id="divyaImg"
+            >
+
+            <!-- Playful floating stickers pinned on the monitor -->
+            <div class="monitor-sticker sticker-alien-voice">💚 DIVYA</div>
+            <div class="monitor-sticker sticker-hi-fi">★ 100% NEURAL</div>
+            <div class="monitor-sticker sticker-kawaii">⚡ ELEVENLABS</div>
+          </div>
+
+          <!-- Status Pill Under Divya -->
+          <div class="divya-status-bar">
+            <span class="status-indicator ready" id="statusIndicator"></span>
+            <span id="statusMessage">Divya is standing by to narrate</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         WORKSPACE GRID: SCRIPT INPUT & CONTROLS
+         ======================================================== -->
+    <div class="controls-grid">
+
+      <!-- Left Column: Script Editor & Triggers -->
+      <section class="left-panel">
+        
+        <!-- Text Input Card -->
+        <div class="y2k-card script-card">
+          <div class="card-header-styled">
+            <div class="title-with-icon">
+              <i class="ph-bold ph-pencil-simple-slash"></i>
+              <h2>WHAT SHOULD DIVYA SAY?</h2>
+            </div>
+            <div class="sample-stickers">
+              <span class="pixel-mini">TRY:</span>
+              <button class="sticker-chip" data-sample="story">📖 Story</button>
+              <button class="sticker-chip" data-sample="anime">✨ Anime</button>
+              <button class="sticker-chip" data-sample="trailer">🎬 Trailer</button>
+              <button class="sticker-chip" data-sample="tech">⚡ Tech</button>
+            </div>
+          </div>
+
+          <div class="textarea-container">
+            <textarea 
+              id="textInput" 
+              placeholder="Paste or type any script here for Divya to speak... Divya supports emotional nuance, whispery pauses, and multiple languages!"
+              rows="5"
+              maxlength="5000"
+            ></textarea>
+            
+            <div class="textarea-footer">
+              <div class="char-badge">
+                <i class="ph ph-textbox"></i>
+                <span id="charCount">0</span> / 5,000 chars
+                <span id="readingTime" class="meta-tag">(approx. 0s speech)</span>
+              </div>
+              <button id="clearTextBtn" class="clear-btn" title="Clear text">
+                <i class="ph ph-trash"></i> CLEAR
+              </button>
+            </div>
+          </div>
+
+          <!-- BIG PLAY CTA BUTTON -->
+          <div class="action-cta-wrap">
+            <button id="synthesizeBtn" class="y2k-btn btn-speak-cta">
+              <span class="btn-spinner hidden" id="synthSpinner"></span>
+              <i class="ph-bold ph-play-fill" id="synthIcon"></i>
+              <span id="synthBtnText">SPEAK IT, DIVYA! ▶</span>
+            </button>
+          </div>
+
+          <!-- Generation Progress Bar -->
+          <div class="progress-bar-container hidden" id="synthProgressContainer">
+            <div class="progress-bar-fill indeterminate"></div>
+          </div>
+        </div>
+
+        <!-- Audio Player & Visualizer Card -->
+        <div class="y2k-card player-card" id="playerCard">
+          <div class="card-header-styled">
+            <div class="title-with-icon">
+              <i class="ph-bold ph-broadcast"></i>
+              <h3>AUDIO WAVEFORMS & CONTROLS</h3>
+            </div>
+            <button id="downloadAudioBtn" class="y2k-btn btn-sm btn-download" disabled title="Download MP3">
+              <i class="ph-bold ph-download-simple"></i>
+              <span>SAVE .MP3</span>
+            </button>
+          </div>
+
+          <!-- Canvas Audio Visualizer -->
+          <div class="visualizer-box">
+            <canvas id="visualizerCanvas"></canvas>
+            <div class="visualizer-overlay" id="visualizerOverlay">
+              <span class="pixel-mini">✦ AUDIO WAVEFORMS APPEAR WHEN PLAYING ✦</span>
+            </div>
+          </div>
+
+          <!-- Hidden Native Audio Element -->
+          <audio id="audioPlayer" preload="auto"></audio>
+
+          <!-- Timeline Slider -->
+          <div class="timeline-container">
+            <span class="time-label" id="currentTimeDisplay">00:00</span>
+            <div class="slider-wrapper">
+              <input type="range" id="timelineSlider" min="0" max="100" value="0" step="0.1" disabled>
+              <div class="timeline-fill" id="timelineProgress"></div>
+            </div>
+            <span class="time-label" id="totalDurationDisplay">00:00</span>
+          </div>
+
+          <!-- Playback Buttons Row -->
+          <div class="player-controls-row">
+            <div class="ctrl-buttons-left">
+              <button id="skipBackBtn" class="ctrl-btn-y2k" title="Rewind 5s" disabled>
+                <i class="ph-bold ph-skip-back"></i>
+              </button>
+              <button id="playPauseBtn" class="ctrl-btn-y2k play-btn-main" title="Play / Pause" disabled>
+                <i class="ph-bold ph-play" id="playPauseIcon"></i>
+              </button>
+              <button id="skipForwardBtn" class="ctrl-btn-y2k" title="Forward 5s" disabled>
+                <i class="ph-bold ph-skip-forward"></i>
+              </button>
+              <button id="stopBtn" class="ctrl-btn-y2k" title="Stop" disabled>
+                <i class="ph-bold ph-stop"></i>
+              </button>
+            </div>
+
+            <div class="ctrl-buttons-right">
+              <!-- Playback Speed -->
+              <div class="speed-wrap">
+                <button id="speedBtn" class="speed-pill" title="Playback speed">1.0x</button>
+                <div class="speed-menu hidden" id="speedDropdown">
+                  <button data-speed="0.75">0.75x</button>
+                  <button data-speed="1.0" class="active">1.0x</button>
+                  <button data-speed="1.25">1.25x</button>
+                  <button data-speed="1.5">1.5x</button>
+                  <button data-speed="2.0">2.0x</button>
+                </div>
+              </div>
+
+              <!-- Volume Slider -->
+              <div class="volume-wrap">
+                <button id="volumeToggleBtn" class="vol-btn" title="Mute/Unmute">
+                  <i class="ph-bold ph-speaker-high" id="volumeIcon"></i>
+                </button>
+                <input type="range" id="volumeSlider" min="0" max="1" step="0.05" value="1">
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- Right Column: Model Picker, Voice Tuner, History -->
+      <aside class="right-panel">
+        
+        <!-- ElevenLabs Model Dropdown Card -->
+        <div class="y2k-card settings-card">
+          <div class="card-header-styled">
+            <div class="title-with-icon">
+              <i class="ph-bold ph-cpu"></i>
+              <h3>ELEVENLABS MODEL</h3>
+            </div>
+            <span class="sticker-chip-sm">AI ENGINE</span>
+          </div>
+
+          <div class="form-item">
+            <label for="modelSelect" class="input-label">Select Voice Generation Model:</label>
+            <div class="custom-select-wrap">
+              <select id="modelSelect">
+                <option value="eleven_multilingual_v2" selected>
+                  Eleven Multilingual v2 (29+ Languages, Top Expressiveness)
+                </option>
+                <option value="eleven_turbo_v2_5">
+                  Eleven Turbo v2.5 (Fastest ~250ms, Low Latency)
+                </option>
+                <option value="eleven_flash_v2_5">
+                  Eleven Flash v2.5 (Sub-75ms, Ultra Speed)
+                </option>
+                <option value="eleven_monolingual_v1">
+                  Eleven English v1 (Classic Narrative)
+                </option>
+                <option value="eleven_multilingual_v1">
+                  Eleven Multilingual v1 (Original Multi-lang)
+                </option>
+              </select>
+              <i class="ph-bold ph-caret-down select-arrow"></i>
+            </div>
+            <p class="model-caption" id="modelDescription">
+              Highest quality expressive voice synthesis for audiobooks, stories, and global content across 29 languages.
+            </p>
+          </div>
+        </div>
+
+        <!-- Voice Choice & Fine-Tuning Card -->
+        <div class="y2k-card settings-card">
+          <div class="card-header-styled">
+            <div class="title-with-icon">
+              <i class="ph-bold ph-user-sound"></i>
+              <h3>DIVYA'S VOICE TUNER</h3>
+            </div>
+            <button id="refreshVoicesBtn" class="refresh-btn" title="Sync voices from your ElevenLabs account">
+              <i class="ph-bold ph-arrows-clockwise"></i> SYNC
+            </button>
+          </div>
+
+          <div class="form-item">
+            <label for="voiceSelect" class="input-label">Choose Speaker Voice:</label>
+            <div class="custom-select-wrap">
+              <select id="voiceSelect">
+                <!-- Dynamically populated or filled with curated voices -->
+              </select>
+              <i class="ph-bold ph-caret-down select-arrow"></i>
+            </div>
+            <div class="voice-badge-row">
+              <span class="badge-mini" id="voiceCategory">Curated</span>
+              <span class="badge-mini" id="voiceDescription">Calm & Expressive</span>
+            </div>
+          </div>
+
+          <!-- Fine-tuning Accordion -->
+          <div class="accordion-box">
+            <button class="accordion-head" id="voiceSettingsToggle">
+              <span><i class="ph-bold ph-faders"></i> ADVANCED TONE CONTROLS</span>
+              <i class="ph-bold ph-caret-down acc-arrow"></i>
+            </button>
+            <div class="accordion-body hidden" id="voiceSettingsContent">
+              
+              <div class="tuner-slider-wrap">
+                <div class="tuner-header">
+                  <span>Stability</span>
+                  <strong id="stabilityVal">0.50</strong>
+                </div>
+                <input type="range" id="stabilitySlider" min="0" max="1" step="0.05" value="0.5">
+                <div class="tuner-labels">
+                  <span>Wild & Emotional</span>
+                  <span>Steady & Calm</span>
+                </div>
+              </div>
+
+              <div class="tuner-slider-wrap">
+                <div class="tuner-header">
+                  <span>Clarity / Similarity</span>
+                  <strong id="similarityVal">0.75</strong>
+                </div>
+                <input type="range" id="similaritySlider" min="0" max="1" step="0.05" value="0.75">
+                <div class="tuner-labels">
+                  <span>Loose</span>
+                  <span>Precise</span>
+                </div>
+              </div>
+
+              <div class="tuner-slider-wrap">
+                <div class="tuner-header">
+                  <span>Style Exaggeration</span>
+                  <strong id="styleVal">0.00</strong>
+                </div>
+                <input type="range" id="styleSlider" min="0" max="1" step="0.05" value="0.0">
+                <div class="tuner-labels">
+                  <span>Subtle</span>
+                  <span>Hyper Dynamic</span>
+                </div>
+              </div>
+
+              <div class="tuner-toggle-row">
+                <div class="toggle-desc">
+                  <span>Speaker Boost</span>
+                  <small>Enhances natural vocal acoustics</small>
+                </div>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="speakerBoostToggle" checked>
+                  <span class="slider-round"></span>
+                </label>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- History Card -->
+        <div class="y2k-card history-card">
+          <div class="card-header-styled">
+            <div class="title-with-icon">
+              <i class="ph-bold ph-clock-counter-clockwise"></i>
+              <h3>DIVYA'S LOG</h3>
+            </div>
+            <button id="clearHistoryBtn" class="clear-btn" title="Clear log">
+              <i class="ph ph-trash"></i>
+            </button>
+          </div>
+          <div class="history-list" id="historyList">
+            <div class="empty-history" id="emptyHistoryNotice">
+              <span class="pixel-mini">NO NARRATIONS LOGGED YET</span>
+              <p>Type text and click "SPEAK IT, DIVYA!" to create your first speech.</p>
+            </div>
+          </div>
+        </div>
+
+      </aside>
+
+    </div>
+  </main>
+
+  <!-- ========================================================
+       API KEY MODAL
+       ======================================================== -->
+  <div class="modal-backdrop hidden" id="apiKeyModal">
+    <div class="modal-window y2k-card">
+      <div class="window-titlebar">
+        <div class="window-titlebar-left">
+          <i class="ph-bold ph-key"></i>
+          <span class="pixel-label">KEY_MANAGER.EXE</span>
+        </div>
+        <button class="win-btn win-close" id="closeApiKeyModal">✕</button>
+      </div>
+      <div class="modal-body-content">
+        <div class="modal-header-icon">
+          <div class="key-icon-badge">🔑</div>
+          <h3>Connect ElevenLabs API</h3>
+        </div>
+        <p class="modal-hint">
+          Enter your ElevenLabs API key to unleash full neural speech synthesis directly through Divya!
+        </p>
+
+        <div class="form-item">
+          <label for="apiKeyInput" class="input-label">ELEVENLABS API KEY</label>
+          <div class="key-input-wrap">
+            <input 
+              type="password" 
+              id="apiKeyInput" 
+              placeholder="xi-..." 
+              autocomplete="off"
+            >
+            <button type="button" id="toggleApiKeyVisibility" class="eye-toggle-btn" title="Toggle visibility">
+              <i class="ph-bold ph-eye" id="eyeIcon"></i>
+            </button>
+          </div>
+          <p class="security-caption">
+            🔒 Saved locally in your browser's <code>localStorage</code>. Never shared with anyone.
+          </p>
+        </div>
+
+        <div class="free-tier-notice">
+          <span class="star-accent">★</span>
+          <div>
+            <strong>Need a free API key?</strong>
+            <p>Get 10,000 free characters every month at <a href="https://elevenlabs.io" target="_blank" rel="noopener">elevenlabs.io</a> &rarr; Profile &rarr; API Keys.</p>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer-styled">
+        <button id="removeApiKeyBtn" class="y2k-btn btn-ghost-red">REMOVE KEY</button>
+        <button id="saveApiKeyBtn" class="y2k-btn btn-save-key">SAVE & CONNECT ★</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- D-ID Interactive Agent Script as requested -->
+  <script type="module"
+    src="https://agent.d-id.com/v2/index.js"
+    data-mode="fabio"
+    data-client-key="ck__x82-tjnHjFVfcoIX468b"
+    data-agent-id="v2_agt_KbsAUOAU"
+    data-name="did-agent"
+    data-monitor="true"
+    data-light-mode="false"
+    data-orientation="horizontal"
+    data-position="right"
+    data-open-mode="expanded">
+  </script>
+
+  <!-- Main Application Logic -->
+  <script src="app.js"></script>
+</body>
+</html>
